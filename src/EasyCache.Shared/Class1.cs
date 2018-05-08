@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EasyCache
+namespace EasyCache.Shared
 {
     public class Class1
     {
