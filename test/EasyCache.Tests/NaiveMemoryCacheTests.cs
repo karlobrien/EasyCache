@@ -4,12 +4,12 @@ using Xunit;
 
 namespace EasyCache.Tests
 {
-    public class MemoryCacheTests
+    public class NaiveMemoryCacheTests
     {
         [Fact]
         public void CacheStores_ReturnsMatchingObject()
         {
-            var instance = MemoryCache.Instance;
+            var instance = NaiveMemoryCache.Instance;
 
             SimpleObject first = new SimpleObject();
             first.Id = 1;
@@ -23,12 +23,5 @@ namespace EasyCache.Tests
             Assert.True(result.Name == first.Name);
 
         }
-    }
-
-    public class SimpleObject
-    {
-        public long Id {get;set;}
-        public string Name { get;set;}
-        public string Address {get;set;}
     }
 }
