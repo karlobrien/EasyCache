@@ -19,18 +19,20 @@ namespace EasyCache.Benchmark
     [MemoryDiagnoser]
     public class SerialCacheBenchmark
     {
+        const int size = 10000;
         private NaiveMemoryCache _naiveCache;
         private ConcurrentMemoryCache _ccMemoryCache;
-        private NoSerialCache<object> _noSerialCache;
+        private NoSerialCache<EasyObject> _noSerialCache;
         public SerialCacheBenchmark()
         {
             _naiveCache = NaiveMemoryCache.Instance;
+            _noSerialCache = NoSerialCache<EasyObject>.Instance;
         }
 
         [Benchmark]
         public void PopulateNaiveCacheOneByOne()
         {
-            for(var i = 0; i < 1000; i++)
+            for(var i = 0; i < size; i++)
             {
                 _naiveCache.Add(i, new EasyObject(i, i+1, i+1), TimeSpan.MinValue);
             }
@@ -42,14 +44,27 @@ namespace EasyCache.Benchmark
         {
             List<EasyObject> lst = new List<EasyObject>();
 
-            for(var i = 0; i < 1000; i++)
+            for(var i = 0; i < size; i++)
             {
                 lst.Add(new EasyObject(i, i+1, i+1));
             }
 
             _naiveCache.Add(lst, t => t.Id, TimeSpan.MinValue);
-
             _naiveCache.ClearCache();
+        }
+
+        [Benchmark]
+        public void PopulateNoSerial()
+        {
+            List<EasyObject> lst = new List<EasyObject>();
+
+            for(var i = 0; i < size; i++)
+            {
+                lst.Add(new EasyObject(i, i+1, i+1));
+            }
+
+            _noSerialCache.Add(lst, t => t.Id, TimeSpan.MinValue);
+            _noSerialCache.ClearCache();
         }
     }
 
