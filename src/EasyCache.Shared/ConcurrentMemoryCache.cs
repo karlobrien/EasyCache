@@ -57,5 +57,10 @@ namespace EasyCache.Shared
         {
             throw new NotImplementedException();
         }
+
+        public void ClearCache()
+        {
+            _cache.Clear();
+        }
     }
 }

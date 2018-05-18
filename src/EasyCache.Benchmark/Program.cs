@@ -27,6 +27,7 @@ namespace EasyCache.Benchmark
         {
             _naiveCache = NaiveMemoryCache.Instance;
             _noSerialCache = NoSerialCache<EasyObject>.Instance;
+            _ccMemoryCache = ConcurrentMemoryCache.Instance;
         }
 
         [Benchmark]
@@ -65,6 +66,20 @@ namespace EasyCache.Benchmark
 
             _noSerialCache.Add(lst, t => t.Id, TimeSpan.MinValue);
             _noSerialCache.ClearCache();
+        }
+
+        [Benchmark]
+        public void PopulateConcurrent()
+        {
+            List<EasyObject> lst = new List<EasyObject>();
+
+            for(var i = 0; i < size; i++)
+            {
+                lst.Add(new EasyObject(i, i+1, i+1));
+            }
+
+            _ccMemoryCache.Add(lst, t => t.Id, TimeSpan.MinValue);
+            _ccMemoryCache.ClearCache();
         }
     }
 
